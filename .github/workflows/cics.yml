@@ -1,0 +1,46 @@
+name: Go Quality Check
+
+on:
+  push:
+    branches:
+      - master
+      - development
+  pull_request:
+    branches:
+      - master
+      - development
+
+jobs:
+  build:
+    name: Build and Test
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+    
+    - name: Set up Go
+      uses: actions/setup-go@v2
+      with:
+        go-version: '1.22.0'
+    
+    - name: Install dependencies
+      run: go mod download
+      
+    - name: Install GitHub CLI
+      run: |
+        sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-key C99B11DEB97541F0
+        sudo apt-add-repository https://cli.github.com/packages
+        sudo apt-get update
+        sudo apt-get install gh -y
+        
+    - name: Run GitHub Copilot suggestions
+      run: |
+        # Run GitHub Copilot suggestions for all Go files in the repository
+        for file in $(find . -name "*.go"); do
+          suggestions=$(gh copilot suggest --path $file)
+          if [ -n "$suggestions" ]; then
+            echo "Suggestions for $file:"
+            echo "$suggestions"
+          fi
+        done
