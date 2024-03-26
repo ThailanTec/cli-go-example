@@ -1,4 +1,4 @@
-mainname: Go Quality Check
+name: Go Quality Check
 
 on:
   push:
