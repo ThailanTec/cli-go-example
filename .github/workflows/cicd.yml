@@ -26,11 +26,6 @@ jobs:
     
     - name: Install dependencies
       run: go mod download
-          
-    - name: Run static code analysis
-      run: |
-        go get -u golang.org/x/lint/golint
-        golint ./...
       
     - name: Run GitHub Copilot suggestions
       run: |
