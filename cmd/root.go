@@ -10,7 +10,7 @@ import (
 func NewRootCMD() *cobra.Command {
 	rootCMD := &cobra.Command{
 		Use:   "google",
-		Short: "Trago suas informações em menos de 7 dias.",
+		Short: "Trago suas informações em menos de 7 dias",
 	}
 
 	rootCMD.AddCommand(EventsCMD)
