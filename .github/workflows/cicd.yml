@@ -36,7 +36,12 @@ jobs:
         golint ./...
       
     - name: Run GitHub Copilot suggestions
-      uses: actions/copilot-check@v1
-      with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
-        language: go
+      run: |
+        # Run GitHub Copilot suggestions for all Go files in the repository
+        for file in $(find . -name "*.go"); do
+          suggestions=$(copilot --file $file)
+          if [ -n "$suggestions" ]; then
+            echo "Suggestions for $file:"
+            echo "$suggestions"
+          fi
+        done
